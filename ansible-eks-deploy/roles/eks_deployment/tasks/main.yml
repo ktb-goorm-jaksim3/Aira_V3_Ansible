@@ -3,4 +3,4 @@
   hosts: localhost
   tasks:
     - name: Deploy JMeter Deployment
-      command: kubectl apply -f "/home/ubuntu/ansible-eks-deploy/k8s-manifests/jmeter-deployment.yml"
+      command: kubectl apply -f "{{ manifest_dir }}/jmeter-deployment.yml"

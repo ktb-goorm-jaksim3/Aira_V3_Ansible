@@ -7,9 +7,7 @@ metadata:
     app: argocd-server
 spec:
   replicas: 1
-  selector:
-    matchLabels:
-      app: argocd-server
+  # spec.selector 필드를 제거하여 immutable 필드 패치를 피합니다.
   template:
     metadata:
       labels:
@@ -19,7 +17,7 @@ spec:
       containers:
         - name: argocd-server
           image: quay.io/argoproj/argocd:v2.8.0
-          command: ["/usr/local/bin/argocd-server"]  # ✅ 실행 명령어 명확히 추가
+          command: ["/usr/local/bin/argocd-server"]
           ports:
             - containerPort: 8080
           env:

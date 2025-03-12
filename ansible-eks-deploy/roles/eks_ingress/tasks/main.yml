@@ -5,7 +5,7 @@
     - name: Create Ingress for applications
       kubernetes.core.k8s:
         state: present
-        src: "/home/ubuntu/ansible-eks-deploy/k8s-manifests/{{ item }}"
+        src: "{{ manifest_dir }}/{{ item }}"
       loop:
         - argocd-ingress.yml
         - grafana-ingress.yml

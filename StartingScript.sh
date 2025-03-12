@@ -85,6 +85,7 @@ aws sts get-caller-identity
 
 # [10] Ansible AWS 모듈 설치
 echo "📦  Ansible AWS 모듈 설치 중..."
+sudo apt install ansible-core -y
 ansible-galaxy collection install amazon.aws --force
 
 echo "🔍  설치된 AWS 관련 모듈 확인"

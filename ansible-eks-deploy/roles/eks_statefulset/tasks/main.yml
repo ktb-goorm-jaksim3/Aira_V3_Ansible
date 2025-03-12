@@ -3,10 +3,10 @@
   hosts: localhost
   tasks:
     - name: Deploy Grafana StatefulSet
-      command: kubectl apply -f "/home/ubuntu/ansible-eks-deploy/k8s-manifests/grafana-statefulset.yml"
+      command: kubectl apply -f "{{ manifest_dir }}/grafana-statefulset.yml"
 
     - name: Deploy Prometheus StatefulSet
-      command: kubectl apply -f "/home/ubuntu/ansible-eks-deploy/k8s-manifests/prometheus-statefulset.yml"
+      command: kubectl apply -f "{{ manifest_dir }}/prometheus-statefulset.yml"
 
     - name: Deploy MySQL StatefulSet
-      command: kubectl apply -f "/home/ubuntu/ansible-eks-deploy/k8s-manifests/mysql-stateful.yml"
+      command: kubectl apply -f "{{ manifest_dir }}/mysql-stateful.yml"

@@ -12,7 +12,32 @@ export AWS_REGION="ap-northeast-2"
 echo "====================================="
 echo "1. Activating Ansible Virtual Environment (ansible-env)"
 echo "====================================="
-source ~/Aira_V3_Ansible/ansible-eks-deploy/ansible-env/bin/activate
+# activate_and_update.sh: 가상환경을 활성화하고 inventory.ini 파일의 인터프리터 경로를 동적으로 업데이트
+
+# 가상환경 활성화 (절대경로 사용)
+source /home/ubuntu/Aira_V3_Ansible/ansible-env/bin/activate
+
+# VIRTUAL_ENV가 올바르게 설정되었는지 확인
+if [ -z "$VIRTUAL_ENV" ]; then
+  echo "ERROR: VIRTUAL_ENV is not set. Check your activate script."
+  exit 1
+fi
+
+# 가상환경의 Python 인터프리터 경로 설정
+export ANSIBLE_PYTHON_INTERPRETER="${VIRTUAL_ENV}/bin/python3"
+
+echo "VIRTUAL_ENV is set to: $VIRTUAL_ENV"
+echo "ANSIBLE_PYTHON_INTERPRETER is set to: $ANSIBLE_PYTHON_INTERPRETER"
+echo "Current PATH: $PATH"
+which ansible
+which python
+
+# inventory.ini 파일 내의 ansible_python_interpreter 값을 VIRTUAL_ENV에 맞게 업데이트 (예: [localhost] 그룹)
+# 여기서는 inventory.ini 파일이 현재 작업 디렉토리에 있다고 가정합니다.
+sed -i "s|^\(localhost .*ansible_python_interpreter=\).*|\1${VIRTUAL_ENV}/bin/python3|" inventory.ini
+
+echo "Updated inventory.ini:"
+cat inventory.ini
 
 echo "====================================="
 echo "2. Connecting to EKS Cluster"
@@ -35,11 +60,11 @@ eksctl utils associate-iam-oidc-provider --region ap-northeast-2 --cluster my-cl
 
 
 echo "====================================="
-echo "3.5 Installing kubectl"
+echo "3.5 Installing kubernetes & kubectl"
 echo "====================================="
-# kubectl 설치 확인 및 설치 (없을 경우)
-if ! command -v kubectl &> /dev/null
-then
+
+# [A] kubectl 설치 확인 및 설치 (없을 경우)
+if ! command -v kubectl &> /dev/null; then
     echo "kubectl not found. Installing kubectl..."
     # 최신 안정 버전 kubectl 다운로드
     curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
@@ -47,6 +72,17 @@ then
     sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
     rm kubectl
     echo "kubectl installed."
+else
+    echo "kubectl is already installed."
+fi
+
+# [B] Python kubernetes 패키지 설치 확인 및 설치 (없을 경우)
+echo "Checking if Python kubernetes package is installed..."
+if ! python3 -c "import kubernetes" 2>/dev/null; then
+    echo "Python kubernetes package not found. Installing..."
+    pip3 install kubernetes
+else
+    echo "Python kubernetes package is already installed."
 fi
 
 echo "====================================="
@@ -84,43 +120,62 @@ echo "6. Skipping webhook endpoints wait (ALB is managed externally)"
 echo "====================================="
 
 echo "====================================="
-echo "7. Deploying Kubernetes Resources using Ansible"
+echo "7. Installing Argo CD"
 echo "====================================="
 
-# 7.1. 네임스페이스 생성
+# 1. argocd 네임스페이스 생성 (이미 존재하면 무시)
+kubectl create namespace argocd || echo "Namespace 'argocd' already exists."
+
+# 2. Argo CD 설치 매니페스트 적용 (공식 stable 버전)
+kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+
+# 3. 기본 네임스페이스를 argocd로 설정 (kubectl config)
+kubectl config set-context --current --namespace=argocd
+
+# 4. (선택 사항) Argo CD API 서버를 외부에서 접근하기 위해 서비스 타입을 LoadBalancer로 변경
+#    이 단계는 Ingress나 Port-forwarding을 사용하지 않을 경우에 필요합니다.
+kubectl patch svc argocd-server -n argocd -p '{"spec": {"type": "LoadBalancer"}}'
+
+echo "Argo CD installation complete."
+
+echo "====================================="
+echo "8. Deploying Kubernetes Resources using Ansible"
+echo "====================================="
+
+# 1. 네임스페이스 생성
 echo ">> Deploying Namespaces..."
-ansible-playbook -i inventory.ini roles/eks_namespace/tasks/main.yml
+ansible-playbook -i inventory.ini roles/eks_namespace/tasks/main.yml -e "manifest_dir=/home/ubuntu/Aira_V3_Ansible/ansible-eks-deploy/k8s-manifests"
 
-# 7.2. PVC 생성
+# 2. PVC 생성
 echo ">> Deploying Persistent Volume Claims (PVCs)..."
-ansible-playbook -i inventory.ini roles/eks_pvc/tasks/main.yml
+ansible-playbook -i inventory.ini roles/eks_pvc/tasks/main.yml -e "manifest_dir=/home/ubuntu/Aira_V3_Ansible/ansible-eks-deploy/k8s-manifests"
 
-# 7.3. Service 생성
+# 3. Service 생성
 echo ">> Deploying Services..."
-ansible-playbook -i inventory.ini roles/eks_service/tasks/main.yml
+ansible-playbook -i inventory.ini roles/eks_service/tasks/main.yml -e "manifest_dir=/home/ubuntu/Aira_V3_Ansible/ansible-eks-deploy/k8s-manifests"
 
-# 7.4. Ingress 생성
+# 4. Ingress 생성
 echo ">> Deploying Ingresses..."
-ansible-playbook -i inventory.ini roles/eks_ingress/tasks/main.yml
+ansible-playbook -i inventory.ini roles/eks_ingress/tasks/main.yml -e "manifest_dir=/home/ubuntu/Aira_V3_Ansible/ansible-eks-deploy/k8s-manifests"
 
-# 7.5. ArgoCD 구성 (RBAC, ConfigMap, Secret, Deployment, Service, Ingress)
-echo ">> Deploying ArgoCD Components..."
-ansible-playbook -i inventory.ini roles/eks_argocd/tasks/main.yml
-
-# 7.6. DaemonSet 배포 (예: Node Exporter)
+# 5. DaemonSet 배포 (예: Node Exporter)
 echo ">> Deploying DaemonSets..."
-ansible-playbook -i inventory.ini roles/eks_daemonset/tasks/main.yml
+ansible-playbook -i inventory.ini roles/eks_daemonset/tasks/main.yml -e "manifest_dir=/home/ubuntu/Aira_V3_Ansible/ansible-eks-deploy/k8s-manifests"
 
-# 7.7. Stateless 애플리케이션 (Deployment) 배포
+# 6. Stateless 애플리케이션 (Deployment) 배포
 echo ">> Deploying Deployments..."
-ansible-playbook -i inventory.ini roles/eks_deployment/tasks/main.yml
+ansible-playbook -i inventory.ini roles/eks_deployment/tasks/main.yml -e "manifest_dir=/home/ubuntu/Aira_V3_Ansible/ansible-eks-deploy/k8s-manifests"
 
-# 7.8. Stateful 애플리케이션 (StatefulSets for Grafana, Prometheus, MySQL) 배포
+# 7. Stateful 애플리케이션 (StatefulSets for Grafana, Prometheus, MySQL) 배포
 echo ">> Deploying StatefulSets..."
-ansible-playbook -i inventory.ini roles/eks_statefulset/tasks/main.yml
+ansible-playbook -i inventory.ini roles/eks_statefulset/tasks/main.yml -e "manifest_dir=/home/ubuntu/Aira_V3_Ansible/ansible-eks-deploy/k8s-manifests"
+
+# 8. ArgoCD 구성 (RBAC, ConfigMap, Secret, Deployment, Service, Ingress)
+echo ">> Deploying ArgoCD Components..."
+ansible-playbook -i inventory.ini roles/eks_argocd/tasks/main.yml -e "manifest_dir=/home/ubuntu/Aira_V3_Ansible/ansible-eks-deploy/k8s-manifests"
 
 echo "====================================="
-echo "8. Verifying deployed resources"
+echo "9. Verifying deployed resources"
 echo "====================================="
 kubectl get all --all-namespaces
 

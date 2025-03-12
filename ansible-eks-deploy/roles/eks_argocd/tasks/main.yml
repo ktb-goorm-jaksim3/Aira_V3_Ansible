@@ -11,17 +11,17 @@
     - name: Deploy ArgoCD ConfigMap
       kubernetes.core.k8s:
         state: present
-        src: "/home/ubuntu/ansible-eks-deploy/k8s-manifests/argocd-configmap.yml"
+        src: "{{ manifest_dir }}/argocd-configmap.yml"
 
     - name: Deploy ArgoCD Secret
       kubernetes.core.k8s:
         state: present
-        src: "/home/ubuntu/ansible-eks-deploy/k8s-manifests/argocd-secret.yml"
+        src: "{{ manifest_dir }}/argocd-secret.yml"
 
     - name: Deploy remaining ArgoCD components
       kubernetes.core.k8s:
         state: present
-        src: "/home/ubuntu/ansible-eks-deploy/k8s-manifests/{{ item }}"
+        src: "{{ manifest_dir }}/{{ item }}"
         api_version: v1
       loop:
         - argocd-deployment.yml
