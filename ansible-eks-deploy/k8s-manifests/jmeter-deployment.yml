@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jmeter
+  namespace: monitoring
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: jmeter
+  template:
+    metadata:
+      labels:
+        app: jmeter
+    spec:
+      nodeSelector:
+        eks.amazonaws.com/nodegroup: private-node-group
+      containers:
+        - name: jmeter
+          image: justb4/jmeter:latest
+          command: ["/bin/bash"]
+          args: ["-c", "while true; do sleep 30; done;"]
+          volumeMounts:
+            - name: jmeter-scripts
+              mountPath: /scripts
+      volumes:
+        - name: jmeter-scripts
+          persistentVolumeClaim:
+            claimName: jmeter-pvc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: jmeter-service
+  namespace: monitoring
+spec:
+  type: ClusterIP
+  selector:
+    app: jmeter
+  ports:
+    - protocol: TCP
+      port: 60000
+      targetPort: 60000

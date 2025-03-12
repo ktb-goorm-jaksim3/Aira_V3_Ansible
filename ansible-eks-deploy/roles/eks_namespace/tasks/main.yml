@@ -1,0 +1,13 @@
+---
+- name: Create Kubernetes namespaces
+  hosts: localhost
+  tasks:
+    - name: Ensure namespaces exist
+      kubernetes.core.k8s:
+        kind: Namespace
+        name: "{{ item }}"
+        state: present
+      loop:
+        - infrastructure
+        - monitoring
+        - database

@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: jmeter-service
+  namespace: monitoring
+spec:
+  type: ClusterIP  # 내부에서만 접근 가능
+  selector:
+    app: jmeter
+  ports:
+    - name: jmeter-rmi
+      protocol: TCP
+      port: 1099  # JMeter 기본 포트
+      targetPort: 1099
+    - name: jmeter-slave
+      protocol: TCP
+      port: 50000  # JMeter Slave와 통신을 위한 포트
+      targetPort: 50000

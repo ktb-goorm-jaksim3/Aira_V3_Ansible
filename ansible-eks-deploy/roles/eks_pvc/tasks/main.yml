@@ -1,0 +1,9 @@
+- name: Apply Kubernetes PVC manifests
+  hosts: localhost
+  tasks:
+    - name: Apply PVC for required components
+      command: kubectl apply -f "/home/ubuntu/ansible-eks-deploy/k8s-manifests/{{ item }}"
+      loop:
+        - mysql-pvc.yml
+        - prometheus-pvc.yml
+        - grafana-pvc.yml

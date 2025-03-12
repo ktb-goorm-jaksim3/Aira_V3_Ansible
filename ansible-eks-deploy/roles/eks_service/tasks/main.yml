@@ -1,0 +1,11 @@
+- name: Apply Kubernetes Services
+  hosts: localhost
+  tasks:
+    - name: Create Services for applications
+      command: kubectl apply -f "/home/ubuntu/ansible-eks-deploy/k8s-manifests/{{ item }}"
+      loop:
+        - grafana-service.yml
+        - prometheus-service.yml
+        - jmeter-service.yml
+        - mysql-service.yml
+        - my-app-service.yml

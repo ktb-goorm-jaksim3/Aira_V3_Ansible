@@ -1,0 +1,12 @@
+---
+- name: Deploy StatefulSets (Grafana, Prometheus, MySQL)
+  hosts: localhost
+  tasks:
+    - name: Deploy Grafana StatefulSet
+      command: kubectl apply -f "/home/ubuntu/ansible-eks-deploy/k8s-manifests/grafana-statefulset.yml"
+
+    - name: Deploy Prometheus StatefulSet
+      command: kubectl apply -f "/home/ubuntu/ansible-eks-deploy/k8s-manifests/prometheus-statefulset.yml"
+
+    - name: Deploy MySQL StatefulSet
+      command: kubectl apply -f "/home/ubuntu/ansible-eks-deploy/k8s-manifests/mysql-stateful.yml"

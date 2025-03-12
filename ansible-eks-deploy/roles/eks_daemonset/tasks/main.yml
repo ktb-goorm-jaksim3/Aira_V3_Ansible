@@ -1,0 +1,8 @@
+---
+- name: Deploy DaemonSet (Node Exporter)
+  hosts: localhost
+  tasks:
+    - name: Apply Node Exporter DaemonSet
+      kubernetes.core.k8s:
+        state: present
+        src: "/home/ubuntu/ansible-eks-deploy/k8s-manifests/node-exporter-daemonset.yml"

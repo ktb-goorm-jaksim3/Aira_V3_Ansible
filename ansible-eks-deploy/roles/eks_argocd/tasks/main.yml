@@ -1,0 +1,29 @@
+---
+- name: Deploy ArgoCD Namespace
+  hosts: localhost
+  tasks:
+    - name: Create infrastructure namespace for ArgoCD
+      kubernetes.core.k8s:
+        state: present
+        kind: Namespace
+        name: infrastructure
+
+    - name: Deploy ArgoCD ConfigMap
+      kubernetes.core.k8s:
+        state: present
+        src: "/home/ubuntu/ansible-eks-deploy/k8s-manifests/argocd-configmap.yml"
+
+    - name: Deploy ArgoCD Secret
+      kubernetes.core.k8s:
+        state: present
+        src: "/home/ubuntu/ansible-eks-deploy/k8s-manifests/argocd-secret.yml"
+
+    - name: Deploy remaining ArgoCD components
+      kubernetes.core.k8s:
+        state: present
+        src: "/home/ubuntu/ansible-eks-deploy/k8s-manifests/{{ item }}"
+        api_version: v1
+      loop:
+        - argocd-deployment.yml
+        - argocd-service.yml
+        - argocd-ingress.yml
