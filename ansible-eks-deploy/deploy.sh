@@ -37,28 +37,27 @@ if ! kubectl get sa aws-load-balancer-controller -n kube-system >/dev/null 2>&1;
   echo "Service account not found; creating manually..."
   kubectl create serviceaccount aws-load-balancer-controller -n kube-system
 fi
-: << 'END'
-echo "====================================="
-echo "5. Installing AWS Load Balancer Controller via Helm"
-echo "====================================="
 
-if helm status aws-load-balancer-controller -n kube-system >/dev/null 2>&1; then
-  echo "aws-load-balancer-controller is already installed. Uninstalling..."
-  helm uninstall aws-load-balancer-controller -n kube-system
-fi
+#echo "====================================="
+#echo "5. Installing AWS Load Balancer Controller via Helm"
+#echo "====================================="
 
-helm repo add eks https://aws.github.io/eks-charts
-helm repo update
-helm install aws-load-balancer-controller eks/aws-load-balancer-controller \
-  -n kube-system \
-  --version 1.11.0 \
-  --set clusterName=my-cluster \
-  --set region=ap-northeast-2 \
-  --set vpcId=vpc-0987d9bb0b8efb784 \
-  --set serviceAccount.create=false \
-  --set enableWebhook=true \
-  --set serviceAccount.name=aws-load-balancer-controller
-END
+#if helm status aws-load-balancer-controller -n kube-system >/dev/null 2>&1; then
+#  echo "aws-load-balancer-controller is already installed. Uninstalling..."
+#  helm uninstall aws-load-balancer-controller -n kube-system
+#fi
+
+#helm repo add eks https://aws.github.io/eks-charts
+#helm repo update
+#helm install aws-load-balancer-controller eks/aws-load-balancer-controller \
+#  -n kube-system \
+#  --version 1.11.0 \
+#  --set clusterName=my-cluster \
+#  --set region=ap-northeast-2 \
+#  --set vpcId=vpc-0987d9bb0b8efb784 \
+#  --set serviceAccount.create=false \
+#  --set enableWebhook=true \
+#  --set serviceAccount.name=aws-load-balancer-controller
 
 echo "====================================="
 echo "6. Waiting for AWS Load Balancer Controller Webhook Endpoints"
