@@ -37,7 +37,7 @@ if ! kubectl get sa aws-load-balancer-controller -n kube-system >/dev/null 2>&1;
   echo "Service account not found; creating manually..."
   kubectl create serviceaccount aws-load-balancer-controller -n kube-system
 fi
-
+: << 'END'
 echo "====================================="
 echo "5. Installing AWS Load Balancer Controller via Helm"
 echo "====================================="
@@ -58,6 +58,7 @@ helm install aws-load-balancer-controller eks/aws-load-balancer-controller \
   --set serviceAccount.create=false \
   --set enableWebhook=true \
   --set serviceAccount.name=aws-load-balancer-controller
+END
 
 echo "====================================="
 echo "6. Waiting for AWS Load Balancer Controller Webhook Endpoints"
