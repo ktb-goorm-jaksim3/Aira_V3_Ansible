@@ -23,7 +23,7 @@ eksctl utils associate-iam-oidc-provider --region ap-northeast-2 --cluster my-cl
 echo "====================================="
 echo "4. Creating IAM Service Account for AWS Load Balancer Controller"
 echo "====================================="
-kubectl delete serviceaccount aws-load-balancer-controller -n kube-system
+kubectl delete serviceaccount aws-load-balancer-controller -n kube-system || true
 eksctl create iamserviceaccount \
   --cluster my-cluster \
   --namespace kube-system \
@@ -38,50 +38,21 @@ if ! kubectl get sa aws-load-balancer-controller -n kube-system >/dev/null 2>&1;
   kubectl create serviceaccount aws-load-balancer-controller -n kube-system
 fi
 
-#echo "====================================="
-#echo "5. Installing AWS Load Balancer Controller via Helm"
-#echo "====================================="
-
-#if helm status aws-load-balancer-controller -n kube-system >/dev/null 2>&1; then
-#  echo "aws-load-balancer-controller is already installed. Uninstalling..."
-#  helm uninstall aws-load-balancer-controller -n kube-system
-#fi
-
-#helm repo add eks https://aws.github.io/eks-charts
-#helm repo update
-#helm install aws-load-balancer-controller eks/aws-load-balancer-controller \
-#  -n kube-system \
-#  --version 1.11.0 \
-#  --set clusterName=my-cluster \
-#  --set region=ap-northeast-2 \
-#  --set vpcId=vpc-0987d9bb0b8efb784 \
-#  --set serviceAccount.create=false \
-#  --set enableWebhook=true \
-#  --set serviceAccount.name=aws-load-balancer-controller
-
+#-----------------------------------------------------------------
+# 5. Skipping AWS Load Balancer Controller installation via Helm
+#     (ALB is managed via Terraform and is already built)
+#-----------------------------------------------------------------
 echo "====================================="
-echo "6. Waiting for AWS Load Balancer Controller Webhook Endpoints"
+echo "5. Skipping AWS Load Balancer Controller installation via Helm (managed by Terraform)"
 echo "====================================="
-# 최대 180초 (3분) 동안 20초 간격으로 엔드포인트를 확인합니다.
-MAX_WAIT=180
-WAIT_INTERVAL=20
-WAITED=0
-while true; do
-  WEBHOOK_EP=$(kubectl get endpoints -n kube-system aws-load-balancer-webhook-service --no-headers | awk '{print $2}')
-  if [ -n "$WEBHOOK_EP" ]; then
-    echo "Webhook endpoints now available: $WEBHOOK_EP"
-    break
-  else
-    echo "No webhook endpoints yet. Waiting ${WAIT_INTERVAL}s..."
-    sleep $WAIT_INTERVAL
-    WAITED=$((WAITED + WAIT_INTERVAL))
-    if [ $WAITED -ge $MAX_WAIT ]; then
-      echo "Error: Webhook endpoints are still not available after $MAX_WAIT seconds. Please check AWS Load Balancer Controller logs:"
-      kubectl logs -n kube-system -l app.kubernetes.io/name=aws-load-balancer-controller --tail=50
-      exit 1
-    fi
-  fi
-done
+
+#-----------------------------------------------------------------
+# 6. Skipping waiting for AWS Load Balancer Controller webhook endpoints
+#     (not applicable since LB Controller is not being installed)
+#-----------------------------------------------------------------
+echo "====================================="
+echo "6. Skipping webhook endpoints wait (ALB is managed externally)"
+echo "====================================="
 
 echo "====================================="
 echo "7. Deploying Kubernetes Resources using Ansible"
