@@ -7,7 +7,7 @@ set -e  # 오류 발생 시 스크립트 중단
 echo "====================================="
 echo "1. Activating Ansible Virtual Environment (ansible-env)"
 echo "====================================="
-source ~/ansible-env/bin/activate
+source ~/Aira_V3_Ansible/ansible-env/bin/activate
 
 echo "====================================="
 echo "2. Connecting to EKS Cluster"
@@ -23,6 +23,7 @@ eksctl utils associate-iam-oidc-provider --region ap-northeast-2 --cluster my-cl
 echo "====================================="
 echo "4. Creating IAM Service Account for AWS Load Balancer Controller"
 echo "====================================="
+kubectl delete serviceaccount aws-load-balancer-controller -n kube-system
 eksctl create iamserviceaccount \
   --cluster my-cluster \
   --namespace kube-system \
@@ -52,9 +53,11 @@ helm install aws-load-balancer-controller eks/aws-load-balancer-controller \
   -n kube-system \
   --version 1.11.0 \
   --set clusterName=my-cluster \
+  --set region=ap-northeast-2 \
+  --set vpcId=vpc-0987d9bb0b8efb784 \
   --set serviceAccount.create=false \
   --set enableWebhook=true \
-  --set serviceAccount.name=aws-load-balancer-controlleri
+  --set serviceAccount.name=aws-load-balancer-controller
 
 echo "====================================="
 echo "6. Waiting for AWS Load Balancer Controller Webhook Endpoints"
