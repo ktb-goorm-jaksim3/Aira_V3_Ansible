@@ -5,20 +5,49 @@
 set -e  # 오류 발생 시 스크립트 중단
 
 echo "====================================="
+echo "0. AWS Region Configuration"
+echo "====================================="
+export AWS_REGION="ap-northeast-2"
+
+echo "====================================="
 echo "1. Activating Ansible Virtual Environment (ansible-env)"
 echo "====================================="
-source ~/Aira_V3_Ansible/ansible-env/bin/activate
+source ~/Aira_V3_Ansible/ansible-eks-deploy/ansible-env/bin/activate
 
 echo "====================================="
 echo "2. Connecting to EKS Cluster"
 echo "====================================="
 # 클러스터 이름(my-cluster) 및 리전(ap-northeast-2)은 환경에 맞게 수정하세요.
 aws eks --region ap-northeast-2 update-kubeconfig --name my-cluster
+# eksctl 설치 확인 및 설치 (없을 경우)
+if ! command -v eksctl &> /dev/null
+then
+    echo "eksctl not found. Installing eksctl..."
+    curl --silent --location "https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_$(uname -s)_amd64.tar.gz" | tar xz -C /tmp
+    sudo mv /tmp/eksctl /usr/local/bin
+    echo "eksctl installed."
+fi
 
 echo "====================================="
 echo "3. Associating IAM OIDC Provider"
 echo "====================================="
 eksctl utils associate-iam-oidc-provider --region ap-northeast-2 --cluster my-cluster --approve
+
+
+echo "====================================="
+echo "3.5 Installing kubectl"
+echo "====================================="
+# kubectl 설치 확인 및 설치 (없을 경우)
+if ! command -v kubectl &> /dev/null
+then
+    echo "kubectl not found. Installing kubectl..."
+    # 최신 안정 버전 kubectl 다운로드
+    curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+    # 바이너리를 /usr/local/bin으로 설치
+    sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+    rm kubectl
+    echo "kubectl installed."
+fi
 
 echo "====================================="
 echo "4. Creating IAM Service Account for AWS Load Balancer Controller"
