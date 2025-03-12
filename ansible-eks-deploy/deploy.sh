@@ -132,7 +132,14 @@ kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/st
 # 3. 기본 네임스페이스를 argocd로 설정 (kubectl config)
 kubectl config set-context --current --namespace=argocd
 
-# 4. (선택 사항) Argo CD API 서버를 외부에서 접근하기 위해 서비스 타입을 LoadBalancer로 변경
+# 4. Argo CD CLI 최신 버전(예: v2.11.0)을 다운로드합니다.
+curl -sSL -o argocd-linux-amd64 https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64
+sudo install -m 555 argocd-linux-amd64 /usr/local/bin/argocd
+rm argocd-linux-amd64
+# 설치 확인
+argocd version --client
+
+# 5. (선택 사항) Argo CD API 서버를 외부에서 접근하기 위해 서비스 타입을 LoadBalancer로 변경
 #    이 단계는 Ingress나 Port-forwarding을 사용하지 않을 경우에 필요합니다.
 kubectl patch svc argocd-server -n argocd -p '{"spec": {"type": "LoadBalancer"}}'
 
