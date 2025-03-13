@@ -1,0 +1,35 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  annotations:
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"v1","kind":"PersistentVolume","metadata":{"annotations":{},"name":"mysql-pv"},"spec":{"accessModes":["ReadWriteOnce"],"awsElasticBlockStore":{"fsType":"ext4","volumeID":"vol-07aae6bb65e6f33d2"},"capacity":{"storage":"10Gi"},"persistentVolumeReclaimPolicy":"Retain","storageClassName":"manual","volumeMode":"Filesystem"}}
+    pv.kubernetes.io/bound-by-controller: "yes"
+  creationTimestamp: "2025-03-13T12:08:00Z"
+  deletionGracePeriodSeconds: 0
+  deletionTimestamp: "2025-03-13T12:54:11Z"
+  finalizers: []
+  name: mysql-pv
+  resourceVersion: "55341"
+  uid: f7e196cc-d491-4413-b56f-5ba91e4a4875
+spec:
+  accessModes:
+  - ReadWriteOnce
+  awsElasticBlockStore:
+    fsType: ext4
+    volumeID: vol-07aae6bb65e6f33d2
+  capacity:
+    storage: 10Gi
+  claimRef:
+    apiVersion: v1
+    kind: PersistentVolumeClaim
+    name: mysql-pvc
+    namespace: database
+    resourceVersion: "46690"
+    uid: 09bf6424-f2cd-4a05-9597-b324f3fa5110
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: manual
+  volumeMode: Filesystem
+status:
+  lastPhaseTransitionTime: "2025-03-13T12:52:33Z"
+  phase: Released

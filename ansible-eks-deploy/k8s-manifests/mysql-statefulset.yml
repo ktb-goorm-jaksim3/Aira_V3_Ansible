@@ -27,7 +27,10 @@ spec:
                   name: mysql-secret
                   key: root-password
             - name: MYSQL_DATABASE
-              value: "aira_db"
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-secret
+                  key: mysql-database
           volumeMounts:
             - name: mysql-storage
               mountPath: /var/lib/mysql

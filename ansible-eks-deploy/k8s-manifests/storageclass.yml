@@ -5,7 +5,6 @@ metadata:
 provisioner: ebs.csi.aws.com
 parameters:
   type: gp3  # 또는 gp2 (EBS 볼륨 타입)
-  encrypted: "true"  # 볼륨 암호화 여부 (필요시)
   fsType: ext4  # 파일 시스템 타입
   allowVolumeExpansion: "true"  # 필요시 볼륨 확장 가능
 reclaimPolicy: Retain  # 삭제 시 볼륨 유지 (삭제하지 않으려면 "Retain")

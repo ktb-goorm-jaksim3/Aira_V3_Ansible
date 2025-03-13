@@ -9,4 +9,4 @@ spec:
   resources:
     requests:
       storage: 10Gi
-  storageClassName: manual  # 여기에 StorageClass 지정
+  storageClassName: ebs-sc  # 여기에 StorageClass 지정

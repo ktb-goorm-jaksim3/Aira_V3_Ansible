@@ -8,7 +8,7 @@ spec:
   accessModes:
     - ReadWriteOnce
   persistentVolumeReclaimPolicy: Retain
-  storageClassName: manual  # PVC의 storageClassName과 일치해야 함
+  storageClassName: ebs-sc  # PVC의 storageClassName과 일치해야 함
   awsElasticBlockStore:
-    volumeID: vol-0070b8dfc19f0d0d1
+    volumeID: vol-07aae6bb65e6f33d2
     fsType: ext4
