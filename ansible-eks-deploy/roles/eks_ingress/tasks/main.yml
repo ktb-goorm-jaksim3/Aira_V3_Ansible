@@ -7,5 +7,6 @@
         state: present
         src: "{{ manifest_dir }}/{{ item }}"
       loop:
-        - argocd-ingress.yml
+        # argocd는 인그레스가 아닌 로드밸런서로 접속
+        # - argocd-ingress.yml
         - grafana-ingress.yml

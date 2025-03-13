@@ -11,7 +11,7 @@ spec:
   template:
     metadata:
       labels:
-        app: argocd-server
+        #app: argocd-server
         app.kubernetes.io/name: argocd-server
     spec:
       serviceAccountName: argocd-admin
