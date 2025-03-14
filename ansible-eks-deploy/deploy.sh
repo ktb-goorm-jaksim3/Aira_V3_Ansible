@@ -140,8 +140,9 @@ rm argocd-linux-amd64
 argocd version --client
 
 # 5. (선택 사항) Argo CD API 서버를 외부에서 접근하기 위해 서비스 타입을 LoadBalancer로 변경
-#    이 단계는 Ingress나 Port-forwarding을 사용하지 않을 경우에 필요합니다.
-kubectl patch svc argocd-server -n argocd -p '{"spec": {"type": "LoadBalancer"}}'
+#    이 단계는 Ingress나 Port-forwarding을 사용하지 않을 경우에 필요합니다
+#   argocd-service.yaml에서 직접 수정했기 때문에 아기 명령어는 더 이상 필요하지 않습니다.
+# kubectl patch svc argocd-server -n argocd -p '{"spec": {"type": "LoadBalancer"}}'
 
 echo "Argo CD installation complete."
 

@@ -5,8 +5,11 @@ metadata:
   namespace: argocd
 spec:
   selector:
-    app: argocd-server
-  type: NodePort  # ✅ NodePort 방식으로 직접 접근 가능하게 설정
+    app.kubernetes.io/name: argocd-server
+    # app: argocd-server # 실제 Pod 레이블과 일치하지 않습니다.
+  type: LoadBalancer
+    # LoadBalancer 타입으로 변경
+    # NodePort  # ✅ NodePort 방식으로 직접 접근 가능하게 설정
   ports:
     - port: 80
       targetPort: 8080
