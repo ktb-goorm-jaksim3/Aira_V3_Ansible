@@ -42,8 +42,8 @@ cat inventory.ini
 echo "====================================="
 echo "2. Connecting to EKS Cluster"
 echo "====================================="
-# 클러스터 이름(Aira_cluster) 및 리전(ap-northeast-2)은 환경에 맞게 수정하세요.
-aws eks --region ap-northeast-2 update-kubeconfig --name Aira_cluster
+# 클러스터 이름(Aira-cluster) 및 리전(ap-northeast-2)은 환경에 맞게 수정하세요.
+aws eks --region ap-northeast-2 update-kubeconfig --name Aira-cluster
 # eksctl 설치 확인 및 설치 (없을 경우)
 if ! command -v eksctl &> /dev/null
 then
@@ -56,7 +56,7 @@ fi
 echo "====================================="
 echo "3. Associating IAM OIDC Provider"
 echo "====================================="
-eksctl utils associate-iam-oidc-provider --region ap-northeast-2 --cluster Aira_cluster --approve
+eksctl utils associate-iam-oidc-provider --region ap-northeast-2 --cluster Aira-cluster --approve
 
 
 echo "====================================="
@@ -90,7 +90,7 @@ echo "4. Creating IAM Service Account for AWS Load Balancer Controller"
 echo "====================================="
 kubectl delete serviceaccount aws-load-balancer-controller -n kube-system || true
 eksctl create iamserviceaccount \
-  --cluster Aira_cluster \
+  --cluster Aira-cluster \
   --namespace kube-system \
   --name aws-load-balancer-controller \
   --attach-policy-arn arn:aws:iam::730335258114:policy/AWSLoadBalancerControllerIAMPolicy \
