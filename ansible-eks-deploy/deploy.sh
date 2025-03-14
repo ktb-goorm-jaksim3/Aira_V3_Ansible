@@ -178,9 +178,9 @@ ansible-playbook -i inventory.ini roles/eks_deployment/tasks/main.yml -e "manife
 echo ">> Deploying StatefulSets..."
 ansible-playbook -i inventory.ini roles/eks_statefulset/tasks/main.yml -e "manifest_dir=/home/ubuntu/Aira_V3_Ansible/ansible-eks-deploy/k8s-manifests"
 
-# 8. ArgoCD 구성 (RBAC, ConfigMap, Secret, Deployment, Service, Ingress)
-echo ">> Deploying ArgoCD Components..."
-ansible-playbook -i inventory.ini roles/eks_argocd/tasks/main.yml -e "manifest_dir=/home/ubuntu/Aira_V3_Ansible/ansible-eks-deploy/k8s-manifests"
+# 8. ArgoCD 구성 (RBAC, ConfigMap, Secret, Deployment, Service, Ingress) // 위에서 이미 배포하므로 불필요
+# echo ">> Deploying ArgoCD Components..."
+# ansible-playbook -i inventory.ini roles/eks_argocd/tasks/main.yml -e "manifest_dir=/home/ubuntu/Aira_V3_Ansible/ansible-eks-deploy/k8s-manifests"
 
 echo "====================================="
 echo "9. Verifying deployed resources"
