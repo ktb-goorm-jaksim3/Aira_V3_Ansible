@@ -4,7 +4,7 @@
   tasks:
     - name: Ensure namespaces exist
       kubernetes.core.k8s:
-        kind: Namespac다
+        kind: Namespace
         name: "{{ item }}"
         state: present
       loop:
