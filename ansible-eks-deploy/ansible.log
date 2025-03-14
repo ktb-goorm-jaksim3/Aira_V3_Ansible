@@ -2187,3 +2187,13 @@ The offending line appears to be:
 2025-03-14 05:37:30,399 p=16153 u=ubuntu n=ansible INFO| changed: [localhost] => (item=argocd-ingress.yml)
 2025-03-14 05:37:30,407 p=16153 u=ubuntu n=ansible INFO| PLAY RECAP *********************************************************************************************************************************************************************************************************
 2025-03-14 05:37:30,407 p=16153 u=ubuntu n=ansible INFO| localhost                  : ok=5    changed=3    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+2025-03-14 05:57:09,368 p=18542 u=ubuntu n=ansible WARNING| [WARNING]: Found both group and host with same name: localhost
+
+2025-03-14 05:57:09,431 p=18542 u=ubuntu n=ansible INFO| PLAY [Create Kubernetes namespaces] ********************************************************************************************************************************************************************************
+2025-03-14 05:57:09,480 p=18542 u=ubuntu n=ansible INFO| TASK [Gathering Facts] *********************************************************************************************************************************************************************************************
+2025-03-14 05:57:10,851 p=18542 u=ubuntu n=ansible INFO| ok: [localhost]
+2025-03-14 05:57:10,860 p=18542 u=ubuntu n=ansible INFO| TASK [Ensure namespaces exist] *************************************************************************************************************************************************************************************
+2025-03-14 05:57:13,772 p=18542 u=ubuntu n=ansible INFO| failed: [localhost] (item=monitoring) => {"ansible_loop_var": "item", "changed": false, "item": "monitoring", "msg": "Failed to find exact match for v1.Namespac신 by [kind, name, singularName, shortNames]"}
+2025-03-14 05:57:16,353 p=18542 u=ubuntu n=ansible INFO| failed: [localhost] (item=database) => {"ansible_loop_var": "item", "changed": false, "item": "database", "msg": "Failed to find exact match for v1.Namespac신 by [kind, name, singularName, shortNames]"}
+2025-03-14 05:57:16,355 p=18542 u=ubuntu n=ansible INFO| PLAY RECAP *********************************************************************************************************************************************************************************************************
+2025-03-14 05:57:16,355 p=18542 u=ubuntu n=ansible INFO| localhost                  : ok=1    changed=0    unreachable=0    failed=1    skipped=0    rescued=0    ignored=0   
