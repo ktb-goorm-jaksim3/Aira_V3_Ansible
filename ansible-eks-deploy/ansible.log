@@ -2197,3 +2197,110 @@ The offending line appears to be:
 2025-03-14 05:57:16,353 p=18542 u=ubuntu n=ansible INFO| failed: [localhost] (item=database) => {"ansible_loop_var": "item", "changed": false, "item": "database", "msg": "Failed to find exact match for v1.Namespac신 by [kind, name, singularName, shortNames]"}
 2025-03-14 05:57:16,355 p=18542 u=ubuntu n=ansible INFO| PLAY RECAP *********************************************************************************************************************************************************************************************************
 2025-03-14 05:57:16,355 p=18542 u=ubuntu n=ansible INFO| localhost                  : ok=1    changed=0    unreachable=0    failed=1    skipped=0    rescued=0    ignored=0   
+2025-03-14 05:58:05,970 p=19080 u=ubuntu n=ansible WARNING| [WARNING]: Found both group and host with same name: localhost
+
+2025-03-14 05:58:06,038 p=19080 u=ubuntu n=ansible INFO| PLAY [Create Kubernetes namespaces] ********************************************************************************************************************************************************************************
+2025-03-14 05:58:06,088 p=19080 u=ubuntu n=ansible INFO| TASK [Gathering Facts] *********************************************************************************************************************************************************************************************
+2025-03-14 05:58:07,858 p=19080 u=ubuntu n=ansible INFO| ok: [localhost]
+2025-03-14 05:58:07,870 p=19080 u=ubuntu n=ansible INFO| TASK [Ensure namespaces exist] *************************************************************************************************************************************************************************************
+2025-03-14 05:58:09,991 p=19080 u=ubuntu n=ansible INFO| changed: [localhost] => (item=monitoring)
+2025-03-14 05:58:11,855 p=19080 u=ubuntu n=ansible INFO| changed: [localhost] => (item=database)
+2025-03-14 05:58:11,867 p=19080 u=ubuntu n=ansible INFO| PLAY RECAP *********************************************************************************************************************************************************************************************************
+2025-03-14 05:58:11,867 p=19080 u=ubuntu n=ansible INFO| localhost                  : ok=2    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+2025-03-14 05:58:12,392 p=19316 u=ubuntu n=ansible WARNING| [WARNING]: Found both group and host with same name: localhost
+
+2025-03-14 05:58:12,484 p=19316 u=ubuntu n=ansible INFO| PLAY [Apply Kubernetes PVC manifests] ******************************************************************************************************************************************************************************
+2025-03-14 05:58:12,508 p=19316 u=ubuntu n=ansible INFO| TASK [Gathering Facts] *********************************************************************************************************************************************************************************************
+2025-03-14 05:58:13,687 p=19316 u=ubuntu n=ansible INFO| ok: [localhost]
+2025-03-14 05:58:13,692 p=19316 u=ubuntu n=ansible INFO| TASK [Apply PVC for required components] ***************************************************************************************************************************************************************************
+2025-03-14 05:58:15,413 p=19316 u=ubuntu n=ansible INFO| changed: [localhost] => (item=mysql-pvc.yml)
+2025-03-14 05:58:16,922 p=19316 u=ubuntu n=ansible INFO| changed: [localhost] => (item=prometheus-pvc.yml)
+2025-03-14 05:58:18,568 p=19316 u=ubuntu n=ansible INFO| changed: [localhost] => (item=grafana-pvc.yml)
+2025-03-14 05:58:18,572 p=19316 u=ubuntu n=ansible INFO| PLAY RECAP *********************************************************************************************************************************************************************************************************
+2025-03-14 05:58:18,572 p=19316 u=ubuntu n=ansible INFO| localhost                  : ok=2    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+2025-03-14 05:58:19,085 p=19605 u=ubuntu n=ansible WARNING| [WARNING]: Found both group and host with same name: localhost
+
+2025-03-14 05:58:19,186 p=19605 u=ubuntu n=ansible INFO| PLAY [Apply Kubernetes Services] ***********************************************************************************************************************************************************************************
+2025-03-14 05:58:19,194 p=19605 u=ubuntu n=ansible INFO| TASK [Gathering Facts] *********************************************************************************************************************************************************************************************
+2025-03-14 05:58:20,333 p=19605 u=ubuntu n=ansible INFO| ok: [localhost]
+2025-03-14 05:58:20,352 p=19605 u=ubuntu n=ansible INFO| TASK [Create Services for applications] ****************************************************************************************************************************************************************************
+2025-03-14 05:58:22,158 p=19605 u=ubuntu n=ansible INFO| changed: [localhost] => (item=grafana-service.yml)
+2025-03-14 05:58:23,554 p=19605 u=ubuntu n=ansible INFO| changed: [localhost] => (item=prometheus-service.yml)
+2025-03-14 05:58:25,029 p=19605 u=ubuntu n=ansible INFO| changed: [localhost] => (item=jmeter-service.yml)
+2025-03-14 05:58:26,632 p=19605 u=ubuntu n=ansible INFO| changed: [localhost] => (item=mysql-service.yml)
+2025-03-14 05:58:28,294 p=19605 u=ubuntu n=ansible INFO| failed: [localhost] (item=my-app-service.yml) => {"ansible_loop_var": "item", "changed": true, "cmd": ["kubectl", "apply", "-f", "/home/ubuntu/Aira_V3_Ansible/ansible-eks-deploy/k8s-manifests/my-app-service.yml"], "delta": "0:00:01.394537", "end": "2025-03-14 05:58:28.263774", "item": "my-app-service.yml", "msg": "non-zero return code", "rc": 1, "start": "2025-03-14 05:58:26.869237", "stderr": "Error from server (NotFound): error when creating \"/home/ubuntu/Aira_V3_Ansible/ansible-eks-deploy/k8s-manifests/my-app-service.yml\": namespaces \"infrastructure\" not found", "stderr_lines": ["Error from server (NotFound): error when creating \"/home/ubuntu/Aira_V3_Ansible/ansible-eks-deploy/k8s-manifests/my-app-service.yml\": namespaces \"infrastructure\" not found"], "stdout": "", "stdout_lines": []}
+2025-03-14 05:58:28,299 p=19605 u=ubuntu n=ansible INFO| PLAY RECAP *********************************************************************************************************************************************************************************************************
+2025-03-14 05:58:28,299 p=19605 u=ubuntu n=ansible INFO| localhost                  : ok=1    changed=0    unreachable=0    failed=1    skipped=0    rescued=0    ignored=0   
+2025-03-14 06:00:02,980 p=20323 u=ubuntu n=ansible WARNING| [WARNING]: Found both group and host with same name: localhost
+
+2025-03-14 06:00:03,049 p=20323 u=ubuntu n=ansible INFO| PLAY [Create Kubernetes namespaces] ********************************************************************************************************************************************************************************
+2025-03-14 06:00:03,119 p=20323 u=ubuntu n=ansible INFO| TASK [Gathering Facts] *********************************************************************************************************************************************************************************************
+2025-03-14 06:00:04,667 p=20323 u=ubuntu n=ansible INFO| ok: [localhost]
+2025-03-14 06:00:04,674 p=20323 u=ubuntu n=ansible INFO| TASK [Ensure namespaces exist] *************************************************************************************************************************************************************************************
+2025-03-14 06:00:07,140 p=20323 u=ubuntu n=ansible INFO| ok: [localhost] => (item=monitoring)
+2025-03-14 06:00:09,561 p=20323 u=ubuntu n=ansible INFO| ok: [localhost] => (item=database)
+2025-03-14 06:00:09,566 p=20323 u=ubuntu n=ansible INFO| PLAY RECAP *********************************************************************************************************************************************************************************************************
+2025-03-14 06:00:09,566 p=20323 u=ubuntu n=ansible INFO| localhost                  : ok=2    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+2025-03-14 06:00:10,180 p=20541 u=ubuntu n=ansible WARNING| [WARNING]: Found both group and host with same name: localhost
+
+2025-03-14 06:00:10,321 p=20541 u=ubuntu n=ansible INFO| PLAY [Apply Kubernetes PVC manifests] ******************************************************************************************************************************************************************************
+2025-03-14 06:00:10,332 p=20541 u=ubuntu n=ansible INFO| TASK [Gathering Facts] *********************************************************************************************************************************************************************************************
+2025-03-14 06:00:11,713 p=20541 u=ubuntu n=ansible INFO| ok: [localhost]
+2025-03-14 06:00:11,729 p=20541 u=ubuntu n=ansible INFO| TASK [Apply PVC for required components] ***************************************************************************************************************************************************************************
+2025-03-14 06:00:13,522 p=20541 u=ubuntu n=ansible INFO| changed: [localhost] => (item=mysql-pvc.yml)
+2025-03-14 06:00:15,493 p=20541 u=ubuntu n=ansible INFO| changed: [localhost] => (item=prometheus-pvc.yml)
+2025-03-14 06:00:17,040 p=20541 u=ubuntu n=ansible INFO| changed: [localhost] => (item=grafana-pvc.yml)
+2025-03-14 06:00:17,043 p=20541 u=ubuntu n=ansible INFO| PLAY RECAP *********************************************************************************************************************************************************************************************************
+2025-03-14 06:00:17,043 p=20541 u=ubuntu n=ansible INFO| localhost                  : ok=2    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+2025-03-14 06:00:17,595 p=20839 u=ubuntu n=ansible WARNING| [WARNING]: Found both group and host with same name: localhost
+
+2025-03-14 06:00:17,693 p=20839 u=ubuntu n=ansible INFO| PLAY [Apply Kubernetes Services] ***********************************************************************************************************************************************************************************
+2025-03-14 06:00:17,705 p=20839 u=ubuntu n=ansible INFO| TASK [Gathering Facts] *********************************************************************************************************************************************************************************************
+2025-03-14 06:00:19,060 p=20839 u=ubuntu n=ansible INFO| ok: [localhost]
+2025-03-14 06:00:19,066 p=20839 u=ubuntu n=ansible INFO| TASK [Create Services for applications] ****************************************************************************************************************************************************************************
+2025-03-14 06:00:21,064 p=20839 u=ubuntu n=ansible INFO| changed: [localhost] => (item=grafana-service.yml)
+2025-03-14 06:00:22,722 p=20839 u=ubuntu n=ansible INFO| changed: [localhost] => (item=prometheus-service.yml)
+2025-03-14 06:00:24,353 p=20839 u=ubuntu n=ansible INFO| changed: [localhost] => (item=jmeter-service.yml)
+2025-03-14 06:00:25,730 p=20839 u=ubuntu n=ansible INFO| changed: [localhost] => (item=mysql-service.yml)
+2025-03-14 06:00:25,734 p=20839 u=ubuntu n=ansible INFO| PLAY RECAP *********************************************************************************************************************************************************************************************************
+2025-03-14 06:00:25,734 p=20839 u=ubuntu n=ansible INFO| localhost                  : ok=2    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+2025-03-14 06:00:26,205 p=21203 u=ubuntu n=ansible WARNING| [WARNING]: Found both group and host with same name: localhost
+
+2025-03-14 06:00:26,256 p=21203 u=ubuntu n=ansible INFO| PLAY [Apply Kubernetes Ingress resources] **************************************************************************************************************************************************************************
+2025-03-14 06:00:26,294 p=21203 u=ubuntu n=ansible INFO| TASK [Gathering Facts] *********************************************************************************************************************************************************************************************
+2025-03-14 06:00:27,600 p=21203 u=ubuntu n=ansible INFO| ok: [localhost]
+2025-03-14 06:00:27,606 p=21203 u=ubuntu n=ansible INFO| TASK [Create Ingress for applications] *****************************************************************************************************************************************************************************
+2025-03-14 06:00:29,789 p=21203 u=ubuntu n=ansible INFO| changed: [localhost] => (item=grafana-ingress.yml)
+2025-03-14 06:00:29,794 p=21203 u=ubuntu n=ansible INFO| PLAY RECAP *********************************************************************************************************************************************************************************************************
+2025-03-14 06:00:29,794 p=21203 u=ubuntu n=ansible INFO| localhost                  : ok=2    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+2025-03-14 06:00:30,400 p=21368 u=ubuntu n=ansible WARNING| [WARNING]: Found both group and host with same name: localhost
+
+2025-03-14 06:00:30,446 p=21368 u=ubuntu n=ansible INFO| PLAY [Deploy DaemonSet (Node Exporter)] ****************************************************************************************************************************************************************************
+2025-03-14 06:00:30,482 p=21368 u=ubuntu n=ansible INFO| TASK [Gathering Facts] *********************************************************************************************************************************************************************************************
+2025-03-14 06:00:31,578 p=21368 u=ubuntu n=ansible INFO| ok: [localhost]
+2025-03-14 06:00:31,585 p=21368 u=ubuntu n=ansible INFO| TASK [Apply Node Exporter DaemonSet] *******************************************************************************************************************************************************************************
+2025-03-14 06:00:34,257 p=21368 u=ubuntu n=ansible INFO| changed: [localhost]
+2025-03-14 06:00:34,258 p=21368 u=ubuntu n=ansible INFO| PLAY RECAP *********************************************************************************************************************************************************************************************************
+2025-03-14 06:00:34,259 p=21368 u=ubuntu n=ansible INFO| localhost                  : ok=2    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+2025-03-14 06:00:34,790 p=21530 u=ubuntu n=ansible WARNING| [WARNING]: Found both group and host with same name: localhost
+
+2025-03-14 06:00:34,869 p=21530 u=ubuntu n=ansible INFO| PLAY [Deploy JMeter] ***********************************************************************************************************************************************************************************************
+2025-03-14 06:00:34,877 p=21530 u=ubuntu n=ansible INFO| TASK [Gathering Facts] *********************************************************************************************************************************************************************************************
+2025-03-14 06:00:36,100 p=21530 u=ubuntu n=ansible INFO| ok: [localhost]
+2025-03-14 06:00:36,106 p=21530 u=ubuntu n=ansible INFO| TASK [Deploy JMeter Deployment] ************************************************************************************************************************************************************************************
+2025-03-14 06:00:37,849 p=21530 u=ubuntu n=ansible INFO| changed: [localhost]
+2025-03-14 06:00:37,851 p=21530 u=ubuntu n=ansible INFO| PLAY RECAP *********************************************************************************************************************************************************************************************************
+2025-03-14 06:00:37,852 p=21530 u=ubuntu n=ansible INFO| localhost                  : ok=2    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+2025-03-14 06:00:38,400 p=21700 u=ubuntu n=ansible WARNING| [WARNING]: Found both group and host with same name: localhost
+
+2025-03-14 06:00:38,477 p=21700 u=ubuntu n=ansible INFO| PLAY [Deploy StatefulSets (Grafana, Prometheus, MySQL)] ************************************************************************************************************************************************************
+2025-03-14 06:00:38,484 p=21700 u=ubuntu n=ansible INFO| TASK [Gathering Facts] *********************************************************************************************************************************************************************************************
+2025-03-14 06:00:39,664 p=21700 u=ubuntu n=ansible INFO| ok: [localhost]
+2025-03-14 06:00:39,672 p=21700 u=ubuntu n=ansible INFO| TASK [Deploy Grafana StatefulSet] **********************************************************************************************************************************************************************************
+2025-03-14 06:00:41,564 p=21700 u=ubuntu n=ansible INFO| changed: [localhost]
+2025-03-14 06:00:41,575 p=21700 u=ubuntu n=ansible INFO| TASK [Deploy Prometheus StatefulSet] *******************************************************************************************************************************************************************************
+2025-03-14 06:00:43,046 p=21700 u=ubuntu n=ansible INFO| changed: [localhost]
+2025-03-14 06:00:43,088 p=21700 u=ubuntu n=ansible INFO| TASK [Deploy MySQL StatefulSet] ************************************************************************************************************************************************************************************
+2025-03-14 06:00:44,468 p=21700 u=ubuntu n=ansible INFO| changed: [localhost]
+2025-03-14 06:00:44,469 p=21700 u=ubuntu n=ansible INFO| PLAY RECAP *********************************************************************************************************************************************************************************************************
+2025-03-14 06:00:44,470 p=21700 u=ubuntu n=ansible INFO| localhost                  : ok=4    changed=3    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   

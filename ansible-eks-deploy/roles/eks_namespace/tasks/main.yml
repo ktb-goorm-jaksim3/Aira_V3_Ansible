@@ -4,10 +4,12 @@
   tasks:
     - name: Ensure namespaces exist
       kubernetes.core.k8s:
-        kind: Namespace
+        kind: Namespac다
         name: "{{ item }}"
         state: present
       loop:
         # - infrastructure // argocd로 대신
+        # 추후 argoCD가 application을 배포할 namespace를 미리 만들어준다
+        - application
         - monitoring
         - database

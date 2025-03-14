@@ -8,4 +8,4 @@
         - prometheus-service.yml
         - jmeter-service.yml
         - mysql-service.yml
-        - my-app-service.yml
+        # - my-app-service.yml // 더 이상 사용X
