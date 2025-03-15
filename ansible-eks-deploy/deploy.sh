@@ -110,82 +110,93 @@ fi
 echo "====================================="
 echo "5. Skipping AWS Load Balancer Controller installation via Helm (managed by Terraform)"
 echo "====================================="
+# helM 설치
+curl -fsSL https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+#helm 저장소 추가 및 업데이트
+helm repo add aws-ebs-csi-driver https://kubernetes-sigs.github.io/aws-ebs-csi-driver
+helm repo update
+# EBS CSI 드라이버 설치
+helm install aws-ebs-csi-driver aws-ebs-csi-driver/aws-ebs-csi-driver \
+  --namespace kube-system \
+  --set controller.serviceAccount.create=true \
+  --set controller.serviceAccount.name=ebs-csi-controller-sa
 
-#-----------------------------------------------------------------
-# 6. Skipping waiting for AWS Load Balancer Controller webhook endpoints
-#     (not applicable since LB Controller is not being installed)
-#-----------------------------------------------------------------
-echo "====================================="
-echo "6. Skipping webhook endpoints wait (ALB is managed externally)"
-echo "====================================="
+  
+# #-----------------------------------------------------------------
+# # 6. Skipping waiting for AWS Load Balancer Controller webhook endpoints
+# #     (not applicable since LB Controller is not being installed)
+# #-----------------------------------------------------------------
+# echo "====================================="
+# echo "6. Skipping webhook endpoints wait (ALB is managed externally)"
+# echo "====================================="
 
-echo "====================================="
-echo "7. Installing Argo CD"
-echo "====================================="
+# echo "====================================="
+# echo "7. Installing Argo CD"
+# echo "====================================="
 
-# 1. argocd 네임스페이스 생성 (이미 존재하면 무시)
-kubectl create namespace argocd || echo "Namespace 'argocd' already exists."
+# # 1. argocd 네임스페이스 생성 (이미 존재하면 무시)
+# kubectl create namespace argocd || echo "Namespace 'argocd' already exists."
 
-# 2. Argo CD 설치 매니페스트 적용 (공식 stable 버전)
-kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+# # 2. Argo CD 설치 매니페스트 적용 (공식 stable 버전)
+# kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
 
-# 3. 기본 네임스페이스를 argocd로 설정 (kubectl config)
-kubectl config set-context --current --namespace=argocd
+# # 3. 기본 네임스페이스를 argocd로 설정 (kubectl config)
+# kubectl config set-context --current --namespace=argocd
 
-# 4. Argo CD CLI 최신 버전(예: v2.11.0)을 다운로드합니다.
-curl -sSL -o argocd-linux-amd64 https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64
-sudo install -m 555 argocd-linux-amd64 /usr/local/bin/argocd
-rm argocd-linux-amd64
-# 설치 확인
-argocd version --client
+# # 4. Argo CD CLI 최신 버전(예: v2.11.0)을 다운로드합니다.
+# curl -sSL -o argocd-linux-amd64 https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64
+# sudo install -m 555 argocd-linux-amd64 /usr/local/bin/argocd
+# rm argocd-linux-amd64
+# # 설치 확인
+# argocd version --client
 
-# 5. (선택 사항) Argo CD API 서버를 외부에서 접근하기 위해 서비스 타입을 LoadBalancer로 변경
-#    이 단계는 Ingress나 Port-forwarding을 사용하지 않을 경우에 필요합니다
-kubectl patch svc argocd-server -n argocd -p '{"spec": {"type": "LoadBalancer"}}'
+# # 5. (선택 사항) Argo CD API 서버를 외부에서 접근하기 위해 서비스 타입을 LoadBalancer로 변경
+# #    이 단계는 Ingress나 Port-forwarding을 사용하지 않을 경우에 필요합니다
+# kubectl patch svc argocd-server -n argocd -p '{"spec": {"type": "LoadBalancer"}}'
 
-echo "Argo CD installation complete."
+# echo "Argo CD installation complete."
 
-echo "====================================="
-echo "8. Deploying Kubernetes Resources using Ansible"
-echo "====================================="
+# echo "====================================="
+# echo "8. Deploying Kubernetes Resources using Ansible"
+# echo "====================================="
 
-# 1. 네임스페이스 생성
-echo ">> Deploying Namespaces..."
-ansible-playbook -i inventory.ini roles/eks_namespace/tasks/main.yml -e "manifest_dir=/home/ubuntu/Aira_V3_Ansible/ansible-eks-deploy/k8s-manifests"
+# # 1. 네임스페이스 생성
+# echo ">> Deploying Namespaces..."
+# ansible-playbook -i inventory.ini roles/eks_namespace/tasks/main.yml -e "manifest_dir=/home/ubuntu/Aira_V3_Ansible/ansible-eks-deploy/k8s-manifests"
 
-# 2. PVC 생성
-echo ">> Deploying Persistent Volume Claims (PVCs)..."
-ansible-playbook -i inventory.ini roles/eks_pvc/tasks/main.yml -e "manifest_dir=/home/ubuntu/Aira_V3_Ansible/ansible-eks-deploy/k8s-manifests"
+# # 2. PVC 생성
+# echo ">> Deploying Persistent Volume Claims (PVCs)..."
+# ansible-playbook -i inventory.ini roles/eks_pvc/tasks/main.yml -e "manifest_dir=/home/ubuntu/Aira_V3_Ansible/ansible-eks-deploy/k8s-manifests"
 
-# 3. Service 생성
-echo ">> Deploying Services..."
-ansible-playbook -i inventory.ini roles/eks_service/tasks/main.yml -e "manifest_dir=/home/ubuntu/Aira_V3_Ansible/ansible-eks-deploy/k8s-manifests"
+# # 3. Service 생성
+# echo ">> Deploying Services..."
+# ansible-playbook -i inventory.ini roles/eks_service/tasks/main.yml -e "manifest_dir=/home/ubuntu/Aira_V3_Ansible/ansible-eks-deploy/k8s-manifests"
 
-# 4. Ingress 생성
-echo ">> Deploying Ingresses..."
-ansible-playbook -i inventory.ini roles/eks_ingress/tasks/main.yml -e "manifest_dir=/home/ubuntu/Aira_V3_Ansible/ansible-eks-deploy/k8s-manifests"
+# # 4. Ingress 생성
+# echo ">> Deploying Ingresses..."
+# ansible-playbook -i inventory.ini roles/eks_ingress/tasks/main.yml -e "manifest_dir=/home/ubuntu/Aira_V3_Ansible/ansible-eks-deploy/k8s-manifests"
 
-# 5. DaemonSet 배포 (예: Node Exporter)
-echo ">> Deploying DaemonSets..."
-ansible-playbook -i inventory.ini roles/eks_daemonset/tasks/main.yml -e "manifest_dir=/home/ubuntu/Aira_V3_Ansible/ansible-eks-deploy/k8s-manifests"
+# # 5. DaemonSet 배포 (예: Node Exporter)
+# echo ">> Deploying DaemonSets..."
+# ansible-playbook -i inventory.ini roles/eks_daemonset/tasks/main.yml -e "manifest_dir=/home/ubuntu/Aira_V3_Ansible/ansible-eks-deploy/k8s-manifests"
 
-# 6. Stateless 애플리케이션 (Deployment) 배포
-echo ">> Deploying Deployments..."
-ansible-playbook -i inventory.ini roles/eks_deployment/tasks/main.yml -e "manifest_dir=/home/ubuntu/Aira_V3_Ansible/ansible-eks-deploy/k8s-manifests"
+# # 6. Stateless 애플리케이션 (Deployment) 배포
+# echo ">> Deploying Deployments..."
+# ansible-playbook -i inventory.ini roles/eks_deployment/tasks/main.yml -e "manifest_dir=/home/ubuntu/Aira_V3_Ansible/ansible-eks-deploy/k8s-manifests"
 
-# 7. Stateful 애플리케이션 (StatefulSets for Grafana, Prometheus, MySQL) 배포
-echo ">> Deploying StatefulSets..."
-ansible-playbook -i inventory.ini roles/eks_statefulset/tasks/main.yml -e "manifest_dir=/home/ubuntu/Aira_V3_Ansible/ansible-eks-deploy/k8s-manifests"
+# # 7. Stateful 애플리케이션 (StatefulSets for Grafana, Prometheus, MySQL) 배포
+# echo ">> Deploying StatefulSets..."
+# ansible-playbook -i inventory.ini roles/eks_statefulset/tasks/main.yml -e "manifest_dir=/home/ubuntu/Aira_V3_Ansible/ansible-eks-deploy/k8s-manifests"
 
-# 8. ArgoCD 구성 (RBAC, ConfigMap, Secret, Deployment, Service, Ingress) // 위에서 이미 배포하므로 불필요
-# echo ">> Deploying ArgoCD Components..."
-# ansible-playbook -i inventory.ini roles/eks_argocd/tasks/main.yml -e "manifest_dir=/home/ubuntu/Aira_V3_Ansible/ansible-eks-deploy/k8s-manifests"
+# # 8. ArgoCD 구성 (RBAC, ConfigMap, Secret, Deployment, Service, Ingress) // 위에서 이미 배포하므로 불필요
+# # echo ">> Deploying ArgoCD Components..."
+# # ansible-playbook -i inventory.ini roles/eks_argocd/tasks/main.yml -e "manifest_dir=/home/ubuntu/Aira_V3_Ansible/ansible-eks-deploy/k8s-manifests"
 
-echo "====================================="
-echo "9. Verifying deployed resources"
-echo "====================================="
-kubectl get all --all-namespaces
+# echo "====================================="
+# echo "9. Verifying deployed resources"
+# echo "====================================="
+# kubectl get all --all-namespaces
 
-echo "====================================="
-echo "Deployment complete!"
-echo "====================================="
+# echo "====================================="
+# echo "Deployment complete!"
+# echo "====================================="
