@@ -4,12 +4,11 @@ metadata:
   name: grafana-pv
 spec:
   capacity:
-    storage: 5Gi
+    storage: 10Gi
   volumeMode: Filesystem
   accessModes:
     - ReadWriteOnce
   persistentVolumeReclaimPolicy: Retain
-  storageClassName: manual
   awsElasticBlockStore:
-    volumeID: vol-0070b8dfc19f0d0d1
+    volumeID: vol-0354742d7d1d34654
     fsType: ext4
