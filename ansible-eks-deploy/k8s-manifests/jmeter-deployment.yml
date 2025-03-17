@@ -15,6 +15,7 @@ spec:
     spec:
       nodeSelector:
         eks.amazonaws.com/nodegroup: private-node-group
+        topology.kubernetes.io/zone: ap-northeast-2a  # 특정 AZ 지정
       containers:
         - name: jmeter
           image: justb4/jmeter:latest
@@ -27,17 +28,3 @@ spec:
         - name: jmeter-scripts
           persistentVolumeClaim:
             claimName: jmeter-pvc
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: jmeter-service
-  namespace: monitoring
-spec:
-  type: ClusterIP
-  selector:
-    app: jmeter
-  ports:
-    - protocol: TCP
-      port: 60000
-      targetPort: 60000
