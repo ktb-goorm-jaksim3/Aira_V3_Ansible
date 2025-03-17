@@ -9,7 +9,6 @@ spec:
   accessModes:
     - ReadWriteOnce
   persistentVolumeReclaimPolicy: Retain
-  storageClassName: manual
   awsElasticBlockStore:
-    volumeID: vol-0070b8dfc19f0d0d1
+    volumeID: vol-033a53cf0f9fb6985
     fsType: ext4

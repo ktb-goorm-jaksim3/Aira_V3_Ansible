@@ -15,6 +15,14 @@ spec:
     spec:
       nodeSelector:
         eks.amazonaws.com/nodegroup: private-node-group
+        topology.kubernetes.io/zone: ap-northeast-2a  # 특정 AZ에 배포
+      initContainers:
+        - name: init-chown-data
+          image: busybox
+          command: ["sh", "-c", "chown -R 65534:65534 /prometheus"]
+          volumeMounts:
+            - name: prometheus-storage
+              mountPath: /prometheus
       containers:
         - name: prometheus
           image: prom/prometheus:latest
@@ -35,17 +43,3 @@ spec:
         - name: prometheus-config
           configMap:
             name: prometheus-config
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: prometheus-service
-  namespace: monitoring
-spec:
-  type: ClusterIP
-  selector:
-    app: prometheus
-  ports:
-    - protocol: TCP
-      port: 9090
-      targetPort: 9090
