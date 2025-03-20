@@ -1,15 +1,5 @@
 ---
-- name: Create Kubernetes namespaces
-  hosts: localhost
-  tasks:
-    - name: Ensure namespaces exist
-      kubernetes.core.k8s:
-        kind: Namespace
-        name: "{{ item }}"
-        state: present
-      loop:
-        # - infrastructure // argocd로 대신
-        # 추후 argoCD가 application을 배포할 namespace를 미리 만들어준다
-        - application
-        - monitoring
-        - database
+- name: Apply Kubernetes Namespace manifests
+  kubernetes.core.k8s:
+    state: present
+    src: "{{ manifest_dir }}/argocd-namespace.yml"

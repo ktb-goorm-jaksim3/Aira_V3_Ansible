@@ -1,12 +1,9 @@
 ---
-- name: Deploy StatefulSets (Grafana, Prometheus, MySQL)
-  hosts: localhost
-  tasks:
-    - name: Deploy Grafana StatefulSet
-      command: kubectl apply -f "{{ manifest_dir }}/grafana-statefulset.yml"
-
-    - name: Deploy Prometheus StatefulSet
-      command: kubectl apply -f "{{ manifest_dir }}/prometheus-statefulset.yml"
-
-    - name: Deploy MySQL StatefulSet
-      command: kubectl apply -f "{{ manifest_dir }}/mysql-stateful.yml"
+- name: Apply Kubernetes StatefulSets
+  kubernetes.core.k8s:
+    state: present
+    src: "{{ item }}"
+  loop:
+    - "{{ manifest_dir }}/grafana-statefulset.yml"
+    - "{{ manifest_dir }}/mysql-statefulset.yml"
+    - "{{ manifest_dir }}/prometheus-statefulset.yml"

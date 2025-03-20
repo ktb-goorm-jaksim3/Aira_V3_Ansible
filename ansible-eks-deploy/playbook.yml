@@ -1,95 +1,22 @@
 ---
-- name: Deploy Kubernetes Resources to EKS
+- name: Deploy Kubernetes Resources
   hosts: localhost
   become: false
-  roles:
-    - eks_namespace
-    - eks_deployment
-    - eks_statefulset
-    - eks_service
-    - eks_ingress
-    - eks_secret
-    - eks_pvc
-    - eks_daemonset
-    - eks_argocd
+  vars:
+    manifest_dir: "/home/ubuntu/Aira_V3_Ansible/ansible-eks-deploy/k8s-manifests"
   tasks:
-
-    # ✅ 1. 네임스페이스 생성
-    - name: Apply Kubernetes Namespaces
-      command: kubectl apply -f k8s-manifests/namespace.yml
-
-    # ✅ 2. Secret & ConfigMap 생성 -> argo cd에서 실행
-    # - name: Apply Kubernetes Secrets
-    #   command: kubectl apply -f k8s-manifests/secret.yml
-
-    # - name: Apply Kubernetes ConfigMap
-    #   command: kubectl apply -f k8s-manifests/configmap.yml
-
-    # ✅ 3. PVC (Persistent Volume Claim) 생성
-    - name: Apply Kubernetes PVCs
-      command: kubectl apply -f "/home/ubuntu/ansible-eks-deploy/k8s-manifests/{{ item }}"
+    - name: Deploy Kubernetes Resources
+      include_role:
+        name: "{{ item }}"
       loop:
-        - pvc.yml
-        - mysql-pvc.yml
-        - backup-pvc.yml
-
-    # ✅ 4. Database (MySQL) 배포
-    - name: Apply MySQL StatefulSet
-      command: kubectl apply -f k8s-manifests/mysql-statefulset.yml
-
-    - name: Apply MySQL Service  # ✅ 추가
-      command: kubectl apply -f k8s-manifests/mysql-service.yml
-
-    # ✅ 5. Application (FE, BE, GPT Worker) 배포
-    # - name: Apply Frontend Deployment
-    #   command: kubectl apply -f k8s-manifests/frontend-deployment.yml
-
-    # - name: Apply Backend Deployment
-    #   command: kubectl apply -f k8s-manifests/backend-deployment.yml
-
-    # - name: Apply GPT Worker Deployment
-    #   command: kubectl apply -f k8s-manifests/gpt-worker-deployment.yml
-
-    # - name: Apply Frontend Service
-    #   command: kubectl apply -f k8s-manifests/frontend-service.yml
-
-    # - name: Apply Backend Service
-    #   command: kubectl apply -f k8s-manifests/backend-service.yml
-
-    # - name: Apply GPT Worker Service
-    #   command: kubectl apply -f k8s-manifests/gpt-worker-service.yml
-
-    # ✅ 6. Monitoring Tools 배포 (Grafana, Prometheus, JMeter)
-    - name: Apply Grafana StatefulSet
-      command: kubectl apply -f k8s-manifests/grafana-statefulset.yml
-
-    - name: Apply Prometheus StatefulSet
-      command: kubectl apply -f k8s-manifests/prometheus-deployment.yml
-
-    - name: Apply JMeter Deployment
-      command: kubectl apply -f k8s-manifests/jmeter-deployment.yml
-
-    # ✅ 7. Ingress 설정
-    - name: Apply Ingress Configuration
-      command: kubectl apply -f k8s-manifests/ingress.yml
-
-    - name: Apply ArgoCD Ingress
-      command: kubectl apply -f k8s-manifests/argocd-ingress.yml
-
-    - name: Apply Grafana Ingress
-      command: kubectl apply -f k8s-manifests/grafana-ingress.yml
-
-    # ✅ 8. ArgoCD 배포 추가
-    - name: Apply ArgoCD Deployment
-      command: kubectl apply -f k8s-manifests/argocd-deployment.yml
-
-    - name: Apply ArgoCD Service
-      command: kubectl apply -f k8s-manifests/argocd-service.yml
-
-      # ✅ 9. DaemonSet (Node Exporter)
-    - name: Apply Node Exporter DaemonSet
-      command: kubectl apply -f k8s-manifests/node-exporter-daemonset.yml
-
-    # - name: Apply Node Exporter DaemonSet
-    #   ansible.builtin.include_role:
-    #     name: eks_daemonset
+        - eks_namespace
+        - eks_pv
+        - eks_pvc
+        - eks_secret
+        - eks_service
+        - eks_ingress
+        - eks_deployment
+        - eks_statefulset
+        - eks_daemonset
+        - eks_configmap
+        - eks_rbac

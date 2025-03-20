@@ -1,15 +1,14 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: argocd-server-ingress
+  name: argocd-ingress
   namespace: argocd
   annotations:
-    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
-    nginx.ingress.kubernetes.io/ssl-passthrough: "true"
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
 spec:
   ingressClassName: nginx
   rules:
-  - host: argocd.kopmorning.com
+  - host: kopmoring.com
     http:
       paths:
       - path: /
@@ -18,4 +17,4 @@ spec:
           service:
             name: argocd-server
             port:
-              name: https
+              number: 443  # HTTPS를 사용할 경우 443, HTTP면 80으로 변경

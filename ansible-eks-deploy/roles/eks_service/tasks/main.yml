@@ -1,11 +1,10 @@
+---
 - name: Apply Kubernetes Services
-  hosts: localhost
-  tasks:
-    - name: Create Services for applications
-      command: kubectl apply -f "{{ manifest_dir }}/{{ item }}"
-      loop:
-        - grafana-service.yml
-        - prometheus-service.yml
-        - jmeter-service.yml
-        - mysql-service.yml
-        # - my-app-service.yml // 더 이상 사용X
+  kubernetes.core.k8s:
+    state: present
+    src: "{{ item }}"
+  loop:
+    - "{{ manifest_dir }}/grafana-service.yml"
+    - "{{ manifest_dir }}/mysql-service.yml"
+    - "{{ manifest_dir }}/prometheus-service.yml"
+    - "{{ manifest_dir }}/argocd-service.yml"

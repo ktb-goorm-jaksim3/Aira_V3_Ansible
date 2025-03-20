@@ -1,9 +1,10 @@
-- name: Apply Kubernetes PVC manifests
-  hosts: localhost
-  tasks:
-    - name: Apply PVC for required components
-      command: kubectl apply -f "{{ manifest_dir }}/{{ item }}"
-      loop:
-        - mysql-pvc.yml
-        - prometheus-pvc.yml
-        - grafana-pvc.yml
+---
+- name: Apply Kubernetes Persistent Volume Claims (PVC)
+  kubernetes.core.k8s:
+    state: present
+    src: "{{ item }}"
+  loop:
+    - "{{ manifest_dir }}/backup-pvc.yml"
+    - "{{ manifest_dir }}/grafana-pvc.yml"
+    - "{{ manifest_dir }}/mysql-pvc.yml"
+    - "{{ manifest_dir }}/prometheus-pvc.yml"

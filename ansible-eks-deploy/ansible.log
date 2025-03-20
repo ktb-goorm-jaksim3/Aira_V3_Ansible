@@ -2389,3 +2389,150 @@ The offending line appears to be:
 2025-03-14 07:39:30,523 p=10552 u=ubuntu n=ansible INFO| changed: [localhost]
 2025-03-14 07:39:30,532 p=10552 u=ubuntu n=ansible INFO| PLAY RECAP ************************************************************************************************************************************************************************************************************************************************************************************************************************
 2025-03-14 07:39:30,533 p=10552 u=ubuntu n=ansible INFO| localhost                  : ok=4    changed=3    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+2025-03-18 15:55:22,960 p=47598 u=ubuntu n=ansible | [WARNING]: Found both group and host with same name: localhost
+
+2025-03-18 15:55:23,371 p=47598 u=ubuntu n=ansible | PLAY [Create Kubernetes namespaces] **********************************************************************************************
+2025-03-18 15:55:23,484 p=47598 u=ubuntu n=ansible | TASK [Gathering Facts] ***********************************************************************************************************
+2025-03-18 15:55:25,131 p=47598 u=ubuntu n=ansible | ok: [localhost]
+2025-03-18 15:55:25,152 p=47598 u=ubuntu n=ansible | TASK [Ensure namespaces exist] ***************************************************************************************************
+2025-03-18 15:55:29,533 p=47598 u=ubuntu n=ansible | changed: [localhost] => (item=application)
+2025-03-18 15:55:29,559 p=47598 u=ubuntu n=ansible | PLAY RECAP ***********************************************************************************************************************
+2025-03-18 15:55:29,560 p=47598 u=ubuntu n=ansible | localhost                  : ok=2    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+2025-03-18 15:55:37,173 p=47810 u=ubuntu n=ansible | [WARNING]: Found both group and host with same name: localhost
+
+2025-03-18 15:55:37,549 p=47810 u=ubuntu n=ansible | PLAY [Deploy DaemonSet (Node Exporter)] ******************************************************************************************
+2025-03-18 15:55:37,677 p=47810 u=ubuntu n=ansible | TASK [Gathering Facts] ***********************************************************************************************************
+2025-03-18 15:55:39,151 p=47810 u=ubuntu n=ansible | ok: [localhost]
+2025-03-18 15:55:39,171 p=47810 u=ubuntu n=ansible | TASK [Apply Node Exporter DaemonSet] *********************************************************************************************
+2025-03-18 15:55:42,863 p=47810 u=ubuntu n=ansible | ok: [localhost]
+2025-03-18 15:55:42,884 p=47810 u=ubuntu n=ansible | PLAY RECAP ***********************************************************************************************************************
+2025-03-18 15:55:42,884 p=47810 u=ubuntu n=ansible | localhost                  : ok=2    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+2025-03-18 15:56:03,679 p=48021 u=ubuntu n=ansible | [WARNING]: Found both group and host with same name: localhost
+
+2025-03-18 15:56:04,071 p=48021 u=ubuntu n=ansible | PLAY [Deploy ArgoCD Namespace] ***************************************************************************************************
+2025-03-18 15:56:04,175 p=48021 u=ubuntu n=ansible | TASK [Gathering Facts] ***********************************************************************************************************
+2025-03-18 15:56:05,659 p=48021 u=ubuntu n=ansible | ok: [localhost]
+2025-03-18 15:56:05,686 p=48021 u=ubuntu n=ansible | TASK [Create infrastructure namespace for ArgoCD] ********************************************************************************
+2025-03-18 15:56:08,806 p=48021 u=ubuntu n=ansible | changed: [localhost]
+2025-03-18 15:56:08,812 p=48021 u=ubuntu n=ansible | TASK [Deploy ArgoCD ConfigMap] ***************************************************************************************************
+2025-03-18 15:56:11,630 p=48021 u=ubuntu n=ansible | changed: [localhost]
+2025-03-18 15:56:11,637 p=48021 u=ubuntu n=ansible | TASK [Deploy ArgoCD Secret] ******************************************************************************************************
+2025-03-18 15:56:14,025 p=48021 u=ubuntu n=ansible | changed: [localhost]
+2025-03-18 15:56:14,034 p=48021 u=ubuntu n=ansible | TASK [Deploy remaining ArgoCD components] ****************************************************************************************
+2025-03-18 15:56:16,240 p=48021 u=ubuntu n=ansible | changed: [localhost] => (item=argocd-deployment.yml)
+2025-03-18 15:56:18,576 p=48021 u=ubuntu n=ansible | changed: [localhost] => (item=argocd-service.yml)
+2025-03-18 15:56:20,991 p=48021 u=ubuntu n=ansible | ok: [localhost] => (item=argocd-ingress.yml)
+2025-03-18 15:56:21,022 p=48021 u=ubuntu n=ansible | PLAY RECAP ***********************************************************************************************************************
+2025-03-18 15:56:21,023 p=48021 u=ubuntu n=ansible | localhost                  : ok=5    changed=4    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+2025-03-18 17:14:04,254 p=52232 u=ubuntu n=ansible | [WARNING]: Found both group and host with same name: localhost
+
+2025-03-18 17:14:04,661 p=52232 u=ubuntu n=ansible | PLAY [Deploy ArgoCD Namespace] ****************************************************************************************************************************
+2025-03-18 17:14:04,776 p=52232 u=ubuntu n=ansible | TASK [Gathering Facts] ************************************************************************************************************************************
+2025-03-18 17:14:06,388 p=52232 u=ubuntu n=ansible | ok: [localhost]
+2025-03-18 17:14:06,410 p=52232 u=ubuntu n=ansible | TASK [Create infrastructure namespace for ArgoCD] *********************************************************************************************************
+2025-03-18 17:14:11,120 p=52232 u=ubuntu n=ansible | ok: [localhost]
+2025-03-18 17:14:11,141 p=52232 u=ubuntu n=ansible | TASK [Deploy ArgoCD ConfigMap] ****************************************************************************************************************************
+2025-03-18 17:14:14,499 p=52232 u=ubuntu n=ansible | ok: [localhost]
+2025-03-18 17:14:14,507 p=52232 u=ubuntu n=ansible | TASK [Deploy ArgoCD Secret] *******************************************************************************************************************************
+2025-03-18 17:14:16,844 p=52232 u=ubuntu n=ansible | changed: [localhost]
+2025-03-18 17:14:16,852 p=52232 u=ubuntu n=ansible | TASK [Deploy remaining ArgoCD components] *****************************************************************************************************************
+2025-03-18 17:14:18,984 p=52232 u=ubuntu n=ansible | ok: [localhost] => (item=argocd-deployment.yml)
+2025-03-18 17:14:21,356 p=52232 u=ubuntu n=ansible | changed: [localhost] => (item=argocd-service.yml)
+2025-03-18 17:14:23,637 p=52232 u=ubuntu n=ansible | ok: [localhost] => (item=argocd-ingress.yml)
+2025-03-18 17:14:23,665 p=52232 u=ubuntu n=ansible | PLAY RECAP ************************************************************************************************************************************************
+2025-03-18 17:14:23,666 p=52232 u=ubuntu n=ansible | localhost                  : ok=5    changed=2    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+2025-03-18 17:14:26,595 p=52709 u=ubuntu n=ansible | [WARNING]: Found both group and host with same name: localhost
+
+2025-03-18 17:14:27,023 p=52709 u=ubuntu n=ansible | PLAY [Deploy DaemonSet (Node Exporter)] *******************************************************************************************************************
+2025-03-18 17:14:27,131 p=52709 u=ubuntu n=ansible | TASK [Gathering Facts] ************************************************************************************************************************************
+2025-03-18 17:14:28,639 p=52709 u=ubuntu n=ansible | ok: [localhost]
+2025-03-18 17:14:28,666 p=52709 u=ubuntu n=ansible | TASK [Apply Node Exporter DaemonSet] **********************************************************************************************************************
+2025-03-18 17:14:31,582 p=52709 u=ubuntu n=ansible | ok: [localhost]
+2025-03-18 17:14:31,607 p=52709 u=ubuntu n=ansible | PLAY RECAP ************************************************************************************************************************************************
+2025-03-18 17:14:31,607 p=52709 u=ubuntu n=ansible | localhost                  : ok=2    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+2025-03-18 17:15:04,863 p=53009 u=ubuntu n=ansible | [WARNING]: Found both group and host with same name: localhost
+
+2025-03-18 17:15:05,305 p=53009 u=ubuntu n=ansible | PLAY [Deploy DaemonSet (Node Exporter)] *************************************************************************************************************************************
+2025-03-18 17:15:05,441 p=53009 u=ubuntu n=ansible | TASK [Gathering Facts] ******************************************************************************************************************************************************
+2025-03-18 17:15:06,988 p=53009 u=ubuntu n=ansible | ok: [localhost]
+2025-03-18 17:15:07,011 p=53009 u=ubuntu n=ansible | TASK [Apply Node Exporter DaemonSet] ****************************************************************************************************************************************
+2025-03-18 17:15:10,599 p=53009 u=ubuntu n=ansible | ok: [localhost]
+2025-03-18 17:15:10,647 p=53009 u=ubuntu n=ansible | PLAY RECAP ******************************************************************************************************************************************************************
+2025-03-18 17:15:10,648 p=53009 u=ubuntu n=ansible | localhost                  : ok=2    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+2025-03-18 18:36:12,006 p=55176 u=ubuntu n=ansible | [WARNING]: Found both group and host with same name: localhost
+
+2025-03-18 18:36:12,386 p=55176 u=ubuntu n=ansible | PLAY [Create Kubernetes namespaces] *****************************************************************************************************************************************
+2025-03-18 18:36:12,506 p=55176 u=ubuntu n=ansible | TASK [Gathering Facts] ******************************************************************************************************************************************************
+2025-03-18 18:36:14,036 p=55176 u=ubuntu n=ansible | ok: [localhost]
+2025-03-18 18:36:14,085 p=55176 u=ubuntu n=ansible | TASK [Ensure namespaces exist] **********************************************************************************************************************************************
+2025-03-18 18:36:18,800 p=55176 u=ubuntu n=ansible | changed: [localhost] => (item=application)
+2025-03-18 18:36:18,833 p=55176 u=ubuntu n=ansible | PLAY RECAP ******************************************************************************************************************************************************************
+2025-03-18 18:36:18,833 p=55176 u=ubuntu n=ansible | localhost                  : ok=2    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+2025-03-18 18:36:48,893 p=55503 u=ubuntu n=ansible | [WARNING]: Found both group and host with same name: localhost
+
+2025-03-18 18:36:49,307 p=55503 u=ubuntu n=ansible | PLAY [Deploy ArgoCD Namespace] **********************************************************************************************************************************************
+2025-03-18 18:36:49,422 p=55503 u=ubuntu n=ansible | TASK [Gathering Facts] ******************************************************************************************************************************************************
+2025-03-18 18:36:50,960 p=55503 u=ubuntu n=ansible | ok: [localhost]
+2025-03-18 18:36:50,978 p=55503 u=ubuntu n=ansible | TASK [Create infrastructure namespace for ArgoCD] ***************************************************************************************************************************
+2025-03-18 18:36:55,267 p=55503 u=ubuntu n=ansible | ok: [localhost]
+2025-03-18 18:36:55,275 p=55503 u=ubuntu n=ansible | TASK [Deploy ArgoCD ConfigMap] **********************************************************************************************************************************************
+2025-03-18 18:36:58,608 p=55503 u=ubuntu n=ansible | changed: [localhost]
+2025-03-18 18:36:58,615 p=55503 u=ubuntu n=ansible | TASK [Deploy ArgoCD Secret] *************************************************************************************************************************************************
+2025-03-18 18:37:02,148 p=55503 u=ubuntu n=ansible | changed: [localhost]
+2025-03-18 18:37:02,162 p=55503 u=ubuntu n=ansible | TASK [Deploy remaining ArgoCD components] ***********************************************************************************************************************************
+2025-03-18 18:37:04,810 p=55503 u=ubuntu n=ansible | changed: [localhost] => (item=argocd-deployment.yml)
+2025-03-18 18:37:07,367 p=55503 u=ubuntu n=ansible | changed: [localhost] => (item=argocd-service.yml)
+2025-03-18 18:37:09,673 p=55503 u=ubuntu n=ansible | changed: [localhost] => (item=argocd-ingress.yml)
+2025-03-18 18:37:09,719 p=55503 u=ubuntu n=ansible | PLAY RECAP ******************************************************************************************************************************************************************
+2025-03-18 18:37:09,720 p=55503 u=ubuntu n=ansible | localhost                  : ok=5    changed=3    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+2025-03-18 18:48:28,702 p=57177 u=ubuntu n=ansible | [WARNING]: Found both group and host with same name: localhost
+
+2025-03-18 18:48:29,094 p=57177 u=ubuntu n=ansible | PLAY [Deploy ArgoCD Namespace] ****************************************************************************************************************************
+2025-03-18 18:48:29,213 p=57177 u=ubuntu n=ansible | TASK [Gathering Facts] ************************************************************************************************************************************
+2025-03-18 18:48:30,804 p=57177 u=ubuntu n=ansible | ok: [localhost]
+2025-03-18 18:48:30,830 p=57177 u=ubuntu n=ansible | TASK [Create infrastructure namespace for ArgoCD] *********************************************************************************************************
+2025-03-18 18:48:35,514 p=57177 u=ubuntu n=ansible | ok: [localhost]
+2025-03-18 18:48:35,547 p=57177 u=ubuntu n=ansible | TASK [Deploy ArgoCD ConfigMap] ****************************************************************************************************************************
+2025-03-18 18:48:39,400 p=57177 u=ubuntu n=ansible | changed: [localhost]
+2025-03-18 18:48:39,407 p=57177 u=ubuntu n=ansible | TASK [Deploy ArgoCD Secret] *******************************************************************************************************************************
+2025-03-18 18:48:41,648 p=57177 u=ubuntu n=ansible | changed: [localhost]
+2025-03-18 18:48:41,654 p=57177 u=ubuntu n=ansible | TASK [Deploy remaining ArgoCD components] *****************************************************************************************************************
+2025-03-18 18:48:44,074 p=57177 u=ubuntu n=ansible | changed: [localhost] => (item=argocd-deployment.yml)
+2025-03-18 18:48:46,615 p=57177 u=ubuntu n=ansible | changed: [localhost] => (item=argocd-service.yml)
+2025-03-18 18:48:48,915 p=57177 u=ubuntu n=ansible | changed: [localhost] => (item=argocd-ingress.yml)
+2025-03-18 18:48:48,940 p=57177 u=ubuntu n=ansible | PLAY RECAP ************************************************************************************************************************************************
+2025-03-18 18:48:48,941 p=57177 u=ubuntu n=ansible | localhost                  : ok=5    changed=3    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+2025-03-18 18:50:54,180 p=57674 u=ubuntu n=ansible | [WARNING]: Found both group and host with same name: localhost
+
+2025-03-18 18:50:54,570 p=57674 u=ubuntu n=ansible | PLAY [Deploy ArgoCD Namespace] ****************************************************************************************************************************
+2025-03-18 18:50:54,686 p=57674 u=ubuntu n=ansible | TASK [Gathering Facts] ************************************************************************************************************************************
+2025-03-18 18:50:56,164 p=57674 u=ubuntu n=ansible | ok: [localhost]
+2025-03-18 18:50:56,183 p=57674 u=ubuntu n=ansible | TASK [Create infrastructure namespace for ArgoCD] *********************************************************************************************************
+2025-03-18 18:50:59,004 p=57674 u=ubuntu n=ansible | ok: [localhost]
+2025-03-18 18:50:59,011 p=57674 u=ubuntu n=ansible | TASK [Deploy ArgoCD ConfigMap] ****************************************************************************************************************************
+2025-03-18 18:51:02,160 p=57674 u=ubuntu n=ansible | ok: [localhost]
+2025-03-18 18:51:02,196 p=57674 u=ubuntu n=ansible | TASK [Deploy ArgoCD Secret] *******************************************************************************************************************************
+2025-03-18 18:51:05,035 p=57674 u=ubuntu n=ansible | ok: [localhost]
+2025-03-18 18:51:05,041 p=57674 u=ubuntu n=ansible | TASK [Deploy remaining ArgoCD components] *****************************************************************************************************************
+2025-03-18 18:51:07,235 p=57674 u=ubuntu n=ansible | ok: [localhost] => (item=argocd-deployment.yml)
+2025-03-18 18:51:09,525 p=57674 u=ubuntu n=ansible | ok: [localhost] => (item=argocd-service.yml)
+2025-03-18 18:51:11,948 p=57674 u=ubuntu n=ansible | ok: [localhost] => (item=argocd-ingress.yml)
+2025-03-18 18:51:11,975 p=57674 u=ubuntu n=ansible | PLAY RECAP ************************************************************************************************************************************************
+2025-03-18 18:51:11,975 p=57674 u=ubuntu n=ansible | localhost                  : ok=5    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+2025-03-18 18:59:56,977 p=58790 u=ubuntu n=ansible | [WARNING]: Found both group and host with same name: localhost
+
+2025-03-18 18:59:57,328 p=58790 u=ubuntu n=ansible | PLAY [Deploy ArgoCD Namespace] **********************************************************************************
+2025-03-18 18:59:57,443 p=58790 u=ubuntu n=ansible | TASK [Gathering Facts] ******************************************************************************************
+2025-03-18 18:59:59,878 p=58790 u=ubuntu n=ansible | ok: [localhost]
+2025-03-18 18:59:59,897 p=58790 u=ubuntu n=ansible | TASK [Create infrastructure namespace for ArgoCD] ***************************************************************
+2025-03-18 19:00:06,538 p=58790 u=ubuntu n=ansible | ok: [localhost]
+2025-03-18 19:00:06,554 p=58790 u=ubuntu n=ansible | TASK [Deploy ArgoCD ConfigMap] **********************************************************************************
+2025-03-18 19:00:10,101 p=58790 u=ubuntu n=ansible | ok: [localhost]
+2025-03-18 19:00:10,107 p=58790 u=ubuntu n=ansible | TASK [Deploy ArgoCD Secret] *************************************************************************************
+2025-03-18 19:00:12,444 p=58790 u=ubuntu n=ansible | changed: [localhost]
+2025-03-18 19:00:12,454 p=58790 u=ubuntu n=ansible | TASK [Deploy remaining ArgoCD components] ***********************************************************************
+2025-03-18 19:00:14,820 p=58790 u=ubuntu n=ansible | ok: [localhost] => (item=argocd-deployment.yml)
+2025-03-18 19:00:17,015 p=58790 u=ubuntu n=ansible | ok: [localhost] => (item=argocd-service.yml)
+2025-03-18 19:00:19,218 p=58790 u=ubuntu n=ansible | ok: [localhost] => (item=argocd-ingress.yml)
+2025-03-18 19:00:19,269 p=58790 u=ubuntu n=ansible | PLAY RECAP ******************************************************************************************************
+2025-03-18 19:00:19,270 p=58790 u=ubuntu n=ansible | localhost                  : ok=5    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   

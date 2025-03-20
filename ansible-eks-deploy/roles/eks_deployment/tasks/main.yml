@@ -1,6 +1,8 @@
-# JMeter Deployment 생성
-- name: Deploy JMeter
-  hosts: localhost
-  tasks:
-    - name: Deploy JMeter Deployment
-      command: kubectl apply -f "{{ manifest_dir }}/jmeter-deployment.yml"
+---
+- name: Apply Kubernetes Deployments
+  kubernetes.core.k8s:
+    state: present
+    src: "{{ item }}"
+  loop:
+    - "{{ manifest_dir }}/jmeter-deployment.yml"
+    - "{{ manifest_dir }}/argocd-deployment.yml"
