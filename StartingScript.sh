@@ -7,8 +7,8 @@ set -e  # 오류 발생 시 스크립트 중단
 # ==========================
 # 0. AWS 환경 설정
 # ==========================
-AWS_ACCESS_KEY_ID="AKIA2UC27UYBCIK6VPQH"
-AWS_SECRET_ACCESS_KEY="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"
+AWS_ACCESS_KEY_ID=""
+AWS_SECRET_ACCESS_KEY=""
 AWS_DEFAULT_REGION="ap-northeast-2"
 IAM_PROFILE_NAME="Aira-Node-IAM"
 EKS_CLUSTER_NAME="Aira-cluster"
